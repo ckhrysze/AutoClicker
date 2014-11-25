@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace AutoClicker
 {
-    public partial class Form1 : Form
+    public partial class Settings : Form
     {
         static Thread AutoClick;
         static int militime;
@@ -50,9 +50,10 @@ namespace AutoClicker
         }
 
 
-        public Form1()
+        public Settings()
         {
             InitializeComponent();
+            this.TopMost = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)

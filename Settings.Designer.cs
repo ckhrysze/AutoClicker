@@ -1,6 +1,6 @@
 ﻿namespace AutoClicker
 {
-    partial class Form1
+    partial class Settings
     {
         /// <summary>
         /// Required designer variable.
