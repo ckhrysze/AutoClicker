@@ -42,6 +42,16 @@
             this.yUpperInput = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.yLowerInput = new System.Windows.Forms.TextBox();
+            this.num1 = new System.Windows.Forms.Label();
+            this.num2 = new System.Windows.Forms.Label();
+            this.num4 = new System.Windows.Forms.Label();
+            this.num3 = new System.Windows.Forms.Label();
+            this.num8 = new System.Windows.Forms.Label();
+            this.num7 = new System.Windows.Forms.Label();
+            this.num6 = new System.Windows.Forms.Label();
+            this.num5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.levelX = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -174,11 +184,111 @@
             this.yLowerInput.TabIndex = 13;
             this.yLowerInput.Text = "300";
             // 
-            // Form1
+            // num1
+            // 
+            this.num1.AutoSize = true;
+            this.num1.Location = new System.Drawing.Point(243, 61);
+            this.num1.Name = "num1";
+            this.num1.Size = new System.Drawing.Size(25, 13);
+            this.num1.TabIndex = 16;
+            this.num1.Text = "1 ->";
+            // 
+            // num2
+            // 
+            this.num2.AutoSize = true;
+            this.num2.Location = new System.Drawing.Point(243, 113);
+            this.num2.Name = "num2";
+            this.num2.Size = new System.Drawing.Size(25, 13);
+            this.num2.TabIndex = 17;
+            this.num2.Text = "2 ->";
+            // 
+            // num4
+            // 
+            this.num4.AutoSize = true;
+            this.num4.Location = new System.Drawing.Point(243, 217);
+            this.num4.Name = "num4";
+            this.num4.Size = new System.Drawing.Size(25, 13);
+            this.num4.TabIndex = 19;
+            this.num4.Text = "4 ->";
+            // 
+            // num3
+            // 
+            this.num3.AutoSize = true;
+            this.num3.Location = new System.Drawing.Point(243, 165);
+            this.num3.Name = "num3";
+            this.num3.Size = new System.Drawing.Size(25, 13);
+            this.num3.TabIndex = 18;
+            this.num3.Text = "3 ->";
+            // 
+            // num8
+            // 
+            this.num8.AutoSize = true;
+            this.num8.Location = new System.Drawing.Point(243, 425);
+            this.num8.Name = "num8";
+            this.num8.Size = new System.Drawing.Size(25, 13);
+            this.num8.TabIndex = 23;
+            this.num8.Text = "8 ->";
+            // 
+            // num7
+            // 
+            this.num7.AutoSize = true;
+            this.num7.Location = new System.Drawing.Point(243, 373);
+            this.num7.Name = "num7";
+            this.num7.Size = new System.Drawing.Size(25, 13);
+            this.num7.TabIndex = 22;
+            this.num7.Text = "7 ->";
+            // 
+            // num6
+            // 
+            this.num6.AutoSize = true;
+            this.num6.Location = new System.Drawing.Point(243, 321);
+            this.num6.Name = "num6";
+            this.num6.Size = new System.Drawing.Size(25, 13);
+            this.num6.TabIndex = 21;
+            this.num6.Text = "6 ->";
+            // 
+            // num5
+            // 
+            this.num5.AutoSize = true;
+            this.num5.Location = new System.Drawing.Point(243, 269);
+            this.num5.Name = "num5";
+            this.num5.Size = new System.Drawing.Size(25, 13);
+            this.num5.TabIndex = 20;
+            this.num5.Text = "5 ->";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(10, 165);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(47, 13);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Level   x";
+            // 
+            // levelX
+            // 
+            this.levelX.AutoSize = true;
+            this.levelX.Location = new System.Drawing.Point(55, 165);
+            this.levelX.Name = "levelX";
+            this.levelX.Size = new System.Drawing.Size(13, 13);
+            this.levelX.TabIndex = 25;
+            this.levelX.Text = "1";
+            // 
+            // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(287, 159);
+            this.ClientSize = new System.Drawing.Size(265, 441);
+            this.Controls.Add(this.levelX);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.num8);
+            this.Controls.Add(this.num7);
+            this.Controls.Add(this.num6);
+            this.Controls.Add(this.num5);
+            this.Controls.Add(this.num4);
+            this.Controls.Add(this.num3);
+            this.Controls.Add(this.num2);
+            this.Controls.Add(this.num1);
             this.Controls.Add(this.yUpperInput);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.yLowerInput);
@@ -194,9 +304,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
+            this.Name = "Settings";
             this.Text = "AutoClicker";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.SettingsFormLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,6 +328,16 @@
         private System.Windows.Forms.TextBox yUpperInput;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox yLowerInput;
+        private System.Windows.Forms.Label num1;
+        private System.Windows.Forms.Label num2;
+        private System.Windows.Forms.Label num4;
+        private System.Windows.Forms.Label num3;
+        private System.Windows.Forms.Label num8;
+        private System.Windows.Forms.Label num7;
+        private System.Windows.Forms.Label num6;
+        private System.Windows.Forms.Label num5;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label levelX;
     }
 }
 

@@ -17,21 +17,6 @@ namespace AutoClicker
         static int yCoord;
         public static int WM_HOTKEY = 0x312;
 
-        [DllImport("user32.dll")]
-        public static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
-
-        [DllImport("user32.dll")]
-        public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SendMessage(IntPtr A_0, int A_1, int A_2, int A_3);
-
-        private const int WM_CLOSE = 0x10;
-        private const int WM_LBUTTONDOWN = 0x201;
-        private const int WM_LBUTTONUP = 0x202;
-
-        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        private const int MOUSEEVENTF_LEFTUP = 0x04;
 
         public void AClick()
         {
@@ -41,14 +26,16 @@ namespace AutoClicker
                 int y = Cursor.Position.Y;
                 if (xLowerBound < x && x < xUpperBound && yLowerBound < y && y < yUpperBound)
                 {
-                    mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-                    Thread.Sleep(2);
-                    mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                    clickAt(Cursor.Position);
                 }
                 Thread.Sleep(militime);
             }
         }
 
+        private void clickAt(Point p)
+        {
+            User32DllWrapper.click(p);
+        }
 
         public Settings()
         {
@@ -56,12 +43,28 @@ namespace AutoClicker
             this.TopMost = true;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void SettingsFormLoad(object sender, EventArgs e)
         {
+            User32DllWrapper.RegisterHotKey(this.Handle, (int)Keys.F1, 0, (uint)Keys.F1);
+
+            setupHotKey(Keys.NumPad1);
+            setupHotKey(Keys.NumPad2);
+            setupHotKey(Keys.NumPad3);
+            setupHotKey(Keys.NumPad4);
+            setupHotKey(Keys.NumPad5);
+            setupHotKey(Keys.NumPad6);
+            setupHotKey(Keys.NumPad7);
+            setupHotKey(Keys.NumPad8);
+            setupHotKey(Keys.NumPad9);
+
+            setupHotKey(Keys.Add);
+            setupHotKey(Keys.Subtract);
+
             AutoClick = new Thread(AClick);
-            RegisterHotKey(this.Handle, (int)Keys.F1, 0, (uint)Keys.F1);
             AutoClick.IsBackground = true;
         }
+
+        private void setupHotKey(Keys key) { User32DllWrapper.RegisterHotKey(this.Handle, (int)key, 0, (uint)key); }
 
         protected override void WndProc(ref Message m)
         {
@@ -71,27 +74,109 @@ namespace AutoClicker
             {
                 Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
 
-                if (key == Keys.F1)
+                switch (key)
                 {
-                    if (!AutoClick.IsAlive)
-                    {
-                        try { captureInputs(); }
-                        catch { setDefaults(); }
+                    case Keys.F1: this.f1Handler(); break;
+                    case Keys.NumPad1: this.levelHero(this.num1); break;
+                    case Keys.NumPad2: this.levelHero(this.num2); break;
+                    case Keys.NumPad3: this.levelHero(this.num3); break;
+                    case Keys.NumPad4: this.levelHero(this.num4); break;
+                    case Keys.NumPad5: this.levelHero(this.num5); break;
+                    case Keys.NumPad6: this.levelHero(this.num6); break;
+                    case Keys.NumPad7: this.levelHero(this.num7); break;
+                    case Keys.NumPad8: this.levelHero(this.num8); break;
+                    case Keys.NumPad9: this.allUpgrades(); break;
+                    case Keys.Add: this.increaseLevelMultiplier(); break;
+                    case Keys.Subtract: this.decreaseLevelMultiplier(); break;
 
-                        AutoClick.Start();
-                        lstate.Text = "Clicking";
-                        lstate.ForeColor = System.Drawing.Color.Green;
-                        Controls.Add(lstate);
-                    }
-                    else
-                    {
-                        AutoClick.Abort();
-                        AutoClick = new Thread(AClick);
-                        lstate.Text = "Not Clicking";
-                        lstate.ForeColor = System.Drawing.Color.Red;
-                        Controls.Add(lstate);
-                    }
                 }
+            }
+        }
+
+        private void decreaseLevelMultiplier()
+        {
+            int multiplier = int.Parse(levelX.Text);
+            switch (multiplier)
+            {
+                case 100: multiplier = 25; break;
+                case 25: multiplier = 10; break;
+                case 10: multiplier = 1; break;
+            }
+            levelX.Text = multiplier.ToString();
+        }
+
+        private void increaseLevelMultiplier()
+        {
+            int multiplier = int.Parse(levelX.Text);
+            switch (multiplier)
+            {
+                case 1: multiplier = 10; break;
+                case 10: multiplier = 25; break;
+                case 25: multiplier = 100; break;
+            }
+            levelX.Text = multiplier.ToString();
+        }
+
+        private void allUpgrades()
+        {
+            Label l = num7;
+            var offset = 300;
+            Point absPoint = this.PointToScreen(l.Location);
+            Point toTheRight = new Point(absPoint.X + offset, absPoint.Y);
+            User32DllWrapper.clickAndReturn(toTheRight, Cursor.Position);
+            
+        }
+
+        private void levelHero(Label l)
+        {
+            checkMultiplier();
+            var offset = 100;
+            Point absPoint = this.PointToScreen(l.Location);
+            Point toTheRight = new Point(absPoint.X + offset, absPoint.Y);
+            User32DllWrapper.clickAndReturn(toTheRight, Cursor.Position);
+            releaseMultiplier();
+        }
+
+        private void releaseMultiplier()
+        {
+            switch (int.Parse(levelX.Text))
+            {
+                case 10: User32DllWrapper.SendKeyUp((ushort)Keys.LShiftKey); break;
+                case 25: User32DllWrapper.SendKeyUp((ushort)Keys.Z); break;
+                case 100: User32DllWrapper.SendKeyUp((ushort)Keys.ControlKey); break;
+            }
+            Thread.Sleep(25);
+        }
+
+        private void checkMultiplier()
+        {
+            switch (int.Parse(levelX.Text))
+            {
+                case 10: User32DllWrapper.SendKeyDown((ushort)Keys.LShiftKey); break;
+                case 25: User32DllWrapper.SendKeyDown((ushort)Keys.Z); break;
+                case 100: User32DllWrapper.SendKeyDown((ushort)Keys.ControlKey); break;
+            }
+        }
+
+        private void f1Handler()
+        {
+            if (!AutoClick.IsAlive)
+            {
+                try { captureInputs(); }
+                catch { setDefaults(); }
+
+                AutoClick.Start();
+                lstate.Text = "Clicking";
+                lstate.ForeColor = System.Drawing.Color.Green;
+                Controls.Add(lstate);
+            }
+            else
+            {
+                AutoClick.Abort();
+                AutoClick = new Thread(AClick);
+                lstate.Text = "Not Clicking";
+                lstate.ForeColor = System.Drawing.Color.Red;
+                Controls.Add(lstate);
             }
         }
 
