@@ -52,6 +52,7 @@
             this.num5 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.levelX = new System.Windows.Forms.Label();
+            this.activeWindowTitle = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -274,11 +275,21 @@
             this.levelX.TabIndex = 25;
             this.levelX.Text = "1";
             // 
+            // activeWindowTitle
+            // 
+            this.activeWindowTitle.AutoSize = true;
+            this.activeWindowTitle.Location = new System.Drawing.Point(13, 216);
+            this.activeWindowTitle.Name = "activeWindowTitle";
+            this.activeWindowTitle.Size = new System.Drawing.Size(41, 13);
+            this.activeWindowTitle.TabIndex = 26;
+            this.activeWindowTitle.Text = "label10";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(265, 441);
+            this.Controls.Add(this.activeWindowTitle);
             this.Controls.Add(this.levelX);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.num8);
@@ -338,6 +349,7 @@
         private System.Windows.Forms.Label num5;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label levelX;
+        private System.Windows.Forms.Label activeWindowTitle;
     }
 }
 

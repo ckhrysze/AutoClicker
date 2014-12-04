@@ -62,6 +62,20 @@ namespace AutoClicker
             SendKeyUp(keyCode);
         }
 
+        public static String GetActiveWindowTitle()
+        {
+            const int nChars = 256;
+            StringBuilder buff = new StringBuilder(nChars);
+            IntPtr handle = GetForegroundWindow();
+            
+            if (GetWindowText(handle, buff, nChars) > 0)
+            {
+                return buff.ToString();
+            }
+
+            return "";
+        }
+
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
@@ -73,6 +87,12 @@ namespace AutoClicker
 
         [DllImport("user32.dll")]
         static extern bool SetCursorPos(int X, int Y);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
         [Flags]
         public enum MouseEventFlags

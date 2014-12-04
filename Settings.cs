@@ -9,6 +9,8 @@ namespace AutoClicker
     public partial class Settings : Form
     {
         static Thread AutoClick;
+        static Thread InfoScrapper;
+
         static int militime;
         static int xLowerBound;
         static int xUpperBound;
@@ -29,6 +31,18 @@ namespace AutoClicker
                     clickAt(Cursor.Position);
                 }
                 Thread.Sleep(militime);
+            }
+        }
+
+        public void Scrapper()
+        {
+            while(true)
+            {
+                var title = User32DllWrapper.GetActiveWindowTitle();
+                activeWindowTitle.Invoke((MethodInvoker)(() =>
+                    activeWindowTitle.Text = title
+                    ));
+                Thread.Sleep(5000);
             }
         }
 
@@ -62,6 +76,10 @@ namespace AutoClicker
 
             AutoClick = new Thread(AClick);
             AutoClick.IsBackground = true;
+
+            InfoScrapper = new Thread(Scrapper);
+            InfoScrapper.IsBackground = true;
+            InfoScrapper.Start();
         }
 
         private void setupHotKey(Keys key) { User32DllWrapper.RegisterHotKey(this.Handle, (int)key, 0, (uint)key); }
